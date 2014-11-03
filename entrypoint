@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+# Copy a default configuration into place if one not there
+# if [ ! -f /etc/bind/named.conf ]; then
+#   cp /etc/bind.orig/* /etc/bind
+# fi
+
+# Create directories and set permissions
+# chown -R bind:bind "/var/lib/bind"
+# chown -R bind:bind "/var/run/named"
+
+exec "$@"
