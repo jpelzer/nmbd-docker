@@ -1,5 +1,4 @@
-#FROM resin/rpi-raspbian:latest
-FROM debian:jessie
+FROM resin/rpi-raspbian:latest
 
 MAINTAINER marc.lennox@gmail.com
 
@@ -34,4 +33,4 @@ EXPOSE 137
 ENTRYPOINT ["./entrypoint"]
 
 # Define command
-CMD ["/usr/sbin/smbd", "-i", "-F", "-S"]
+CMD ["/usr/sbin/nmbd", "-i", "-F", "-S", "-d", "3", "-H", "/var/samba/lmhosts"]

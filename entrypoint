@@ -3,7 +3,7 @@ set -e
 
 # Copy a default configuration into place if one not there
 if [ ! -f /etc/samba/smb.conf ]; then
-  cp -R /etc/samba.orig/* /etc/samba
+  cp -u -R /etc/samba.orig/* /etc/samba
 fi
 
 exec "$@"
