@@ -33,4 +33,4 @@ EXPOSE 137
 ENTRYPOINT ["./entrypoint"]
 
 # Define command
-CMD ["/usr/sbin/nmbd", "-i", "-F", "-S", "-d", "3", "-H", "/var/samba/lmhosts"]
+CMD ["/usr/sbin/nmbd", "-i", "-F", "-S", "-d", "3", "-s", "/etc/samba/smb.conf", "-H", "/var/samba/lmhosts"]
