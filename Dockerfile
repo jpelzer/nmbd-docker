@@ -15,24 +15,23 @@ RUN apt-get install -y curl dnsutils iproute nano samba wget
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Move the existing configuration and data directories out of the way
-#RUN mv /etc/bind /etc/bind.orig
-#RUN mv /var/lib/bind /var/lib/bind.orig
+RUN mv /etc/samba /etc/samba.orig
 
 # Define working directory.
-WORKDIR /opt/wins
+WORKDIR /opt/samba
 
 # Add files to the container.
-ADD . /opt/wins
+ADD . /opt/samba
 
 # Define volumes.
-VOLUME ["/etc/bind", "/var/lib/bind", "/var/run/wins"]
+VOLUME ["/etc/samba", "/var/lib/samba", "/var/run/samba"]
 
 # Expose ports.
-EXPOSE 53
-EXPOSE 53/udp
+EXPOSE 42
+EXPOSE 137
 
 # Define entrypoint.
 ENTRYPOINT ["./entrypoint"]
 
 # Define command
-#CMD ["/usr/sbin/wins", "-u", "bind", "-g"]
+CMD ["/usr/sbin/smbd", "-i", "-F", "-S"]
