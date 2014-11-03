@@ -1,4 +1,4 @@
-Raspberry Pi WINS Server Docker
-===============================
+Raspberry Pi NETBIOS Naming Server Docker
+=========================================
 
-Samba WINS server docker image for the Raspberry Pi running ArchLinux with Docker daemon.
+Samba NETBIOS naming server docker image for the Raspberry Pi running ArchLinux with Docker daemon.
