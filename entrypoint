@@ -11,7 +11,7 @@ cp -u ./host-config /etc/samba || true
 cp -u ./pipework /etc/samba || true
 
 # Wait for pipework to create the bridge
-if [ "PIPEWORK_WAIT" == "true" ]; then
+if [ "${PIPEWORK_WAIT}" == "true" ]; then
   printf "Waiting for host to create eth1 interface bridge... "
   ./pipework --wait -i eth1
   echo "done."
