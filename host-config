@@ -1,0 +1,48 @@
+#!/bin/sh
+set -e
+
+SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
+CONTAINER_NAME=${CONTAINER_NAME:-$1}
+LAN_INTERFACE=eth0
+VLAN_INTERFACE=eth0nmbd
+CONTAINER_INTERFACE=eth1
+
+# Exit with error if required environment is not present
+if [ -z "${CONTAINER_NAME}" ]; then
+  echo "Envrionment variable CONTAINER_NAME must be provided"
+  exit 1
+fi
+CONTAINER_ID=`/bin/docker inspect -f {{.Id}} ${CONTAINER_NAME}`
+if [ -z "${CONTAINER_ID}" ]; then
+  echo "Could not find CONTAINER_ID from provided CONTAINER_NAME"
+  exit 1
+fi
+if [ -z "${HOST_IP_SUBNET}" ]; then
+  echo "Envrionment variable HOST_IP_SUBNET must be provided"
+  exit 1
+fi
+if [ -z "${HOST_BRIDGE_IP_SUBNET}" ]; then
+  echo "Envrionment variable HOST_BRIDGE_IP_SUBNET must be provided"
+  exit 1
+fi
+if [ -z "${GATEWAY_IP_ADDRESS}" ]; then
+  echo "Envrionment variable GATEWAY_IP_ADDRESS must be provided"
+  exit 1
+fi
+
+# Reset the interfaces if we are running again
+/bin/route del default gw ${GATEWAY_IP_ADDRESS} || true
+/bin/ip addr del ${HOST_IP_SUBNET} dev ${VLAN_INTERFACE} || true
+/bin/ip addr add ${HOST_IP_SUBNET} dev ${LAN_INTERFACE} || true
+/bin/ip link set ${VLAN_INTERFACE} down || true
+/bin/ip link del link ${LAN_INTERFACE} dev ${VLAN_INTERFACE} type macvlan mode bridge || true
+
+# Create a virtual ethernet interface
+/bin/ip addr del ${HOST_IP_SUBNET} dev ${LAN_INTERFACE}
+/bin/ip link add link ${LAN_INTERFACE} dev ${VLAN_INTERFACE} type macvlan mode bridge
+/bin/ip link set ${VLAN_INTERFACE} up
+/bin/ip addr add ${HOST_IP_SUBNET} dev ${VLAN_INTERFACE}
+/bin/route add default gw ${GATEWAY_IP_ADDRESS}
+
+# Attach teh virtual interface to the container
+${SCRIPT_DIR}/pipework ${LAN_INTERFACE} -i ${CONTAINER_INTERFACE} ${CONTAINER_ID} ${HOST_BRIDGE_IP_SUBNET}

@@ -21,6 +21,8 @@ WORKDIR /opt/samba
 
 # Add files to the container.
 ADD . /opt/samba
+RUN wget --no-check-certificate https://raw.githubusercontent.com/jpetazzo/pipework/master/pipework
+RUN chmod +x pipework
 
 # Define volumes.
 VOLUME ["/etc/samba", "/var/lib/samba", "/var/run/samba"]
