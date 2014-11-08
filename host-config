@@ -12,7 +12,7 @@ if [ -z "${CONTAINER_NAME}" ]; then
   echo "Envrionment variable CONTAINER_NAME must be provided"
   exit 1
 fi
-CONTAINER_ID=/usr/bin/docker inspect -f {{.Id}} ${CONTAINER_NAME}`
+CONTAINER_ID=`/usr/bin/docker inspect -f {{.Id}} ${CONTAINER_NAME}`
 if [ -z "${CONTAINER_ID}" ]; then
   echo "Could not find CONTAINER_ID from provided CONTAINER_NAME"
   exit 1
