@@ -9,7 +9,7 @@ CONTAINER_INTERFACE=eth1
 
 # Exit with error if required environment is not present
 if [ -z "${CONTAINER_NAME}" ]; then
-  echo "Envrionment variable CONTAINER_NAME must be provided"
+  echo "Environment variable CONTAINER_NAME must be provided"
   exit 1
 fi
 CONTAINER_ID=`/usr/bin/docker inspect -f {{.Id}} ${CONTAINER_NAME}`
@@ -18,15 +18,15 @@ if [ -z "${CONTAINER_ID}" ]; then
   exit 1
 fi
 if [ -z "${HOST_IP_SUBNET}" ]; then
-  echo "Envrionment variable HOST_IP_SUBNET must be provided"
+  echo "Environment variable HOST_IP_SUBNET must be provided"
   exit 1
 fi
 if [ -z "${HOST_BRIDGE_IP_SUBNET}" ]; then
-  echo "Envrionment variable HOST_BRIDGE_IP_SUBNET must be provided"
+  echo "Environment variable HOST_BRIDGE_IP_SUBNET must be provided"
   exit 1
 fi
 if [ -z "${GATEWAY_IP_ADDRESS}" ]; then
-  echo "Envrionment variable GATEWAY_IP_ADDRESS must be provided"
+  echo "Environment variable GATEWAY_IP_ADDRESS must be provided"
   exit 1
 fi
 
